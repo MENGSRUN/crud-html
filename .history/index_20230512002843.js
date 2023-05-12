@@ -1,0 +1,68 @@
+    //method to get all data
+    function allData(){
+            
+        table.innerHTML = ``
+        //get data from localstorage and store to contaclist array
+        //we must to use JSON.parse, because data as string, we need convert to array
+        contactList = JSON.parse(localStorage.getItem('listItem')) ?? []
+    
+        //looping data and show data in table
+        contactList.forEach(function (value, i){
+           
+            var table = document.getElementById('table')
+    
+            table.innerHTML += `
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${value.name}</td>
+                    <td>${value.age}</td>
+                    <td>${value.address}</td>
+                    <td>${value.phone}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success" onclick="find(${value.id})">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="removeData(${value.id})">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`
+        })
+    }
+
+
+    //method to get detail personal data based on id
+function find(id){
+    //get data from localstorage and store to contaclist array
+    //we must to use JSON.parse, because data as string, we need convert to array
+    contactList = JSON.parse(localStorage.getItem('listItem')) ?? []
+
+    contactList.forEach(function (value){
+        if(value.id == id){
+           document.getElementById('id').value = value.id
+           document.getElementById('name').value = value.name
+           document.getElementById('age').value = value.age
+           document.getElementById('address').value = value.address
+           document.getElementById('phone').value = value.phone
+        }
+    })
+}
+
+
+function removeData(id){
+    //get data from localstorage and store to contaclist array
+    //we must to use JSON.parse, because data as string, we need convert to array
+    contactList = JSON.parse(localStorage.getItem('listItem')) ?? []
+
+    contactList = contactList.filter(function(value){ 
+        return value.id != id; 
+    });
+
+    // save array into localstorage
+    localStorage.setItem('listItem', JSON.stringify(contactList))
+
+    //get data again
+    allData()
+}
